@@ -1,0 +1,10 @@
+*.aux
+*.zip
+*.pdf
+*.fdb_latexmk
+*.fls
+*.log
+*.synctex.gz
+.vscode
+*.code-workspace
+*.jld
