@@ -10,6 +10,7 @@
 \usepackage{amssymb}
 \usepackage{nicefrac}
 \usepackage{listings} % For displaying code
+\usepackage{jlcode} % for Julia code styling
 
 % Answers
 \def\ans#1{\par\gre{Answer: #1}}
@@ -39,6 +40,7 @@
 
 
 \begin{document}
+\lstset{language=julia}
 
 \title{CPSC 340 Assignment 1 (due Friday September 12 at 11:55pm)}
 % \author{Pooya Daravi - S\#:34584145}
@@ -187,16 +189,34 @@ Hint: it is helpful to write out the linear algebra expressions in terms of summ
 
 \subsection{Derivatives of code}
 
-For these questions you may find it helpful to review this list of useful Julia commands:\\
-\url{http://www.cs.ubc.ca/~schmidtm/Courses/Notes/juliaCommands.txt}
+\begin{lstlisting}[language=julia, frame=single]
+function grad1(x)
+	n = length(x);
+	g = zeros(n);
+	for i in 1:n
+		g[i] = 3 * (x[i]^2);
+	end
+	return g;
+end
 
-The zip file \texttt{a1.zip} contains a Julia file named \texttt{grads.jl} which defines several functions that take in a vector as input. \blu{Complete the functions \texttt{grad1}, \texttt{grad2}, and \texttt{grad3} (which compute the gradients of \texttt{func1}, \texttt{func2}, and \texttt{func3})}. Include the code in the PDF file for this section, and also in your zip file.
+function grad2(x)
+	n = length(x);
+	g = zeros(n);
+	for i in 1:n
+		g[i] = prod(x) / x[i];
+	end
+	return g;
+end
 
-Hint: for many people it's easiest to first understand on paper what the code is doing, then compute
-the gradient, and then translate this gradient back into code. We've given you \texttt{func0} and \texttt{grad0} as an example. Also, we've provided the function \texttt{numGrad} which approximates the gradient numerically to help you debug. Below is an example of using these functions:
-
-Note: do not worry about the distinction between row vectors and column vectors here.
-For example, if the correct answer is a vector of length 5, we'll accept vectors of size $5 \times 1$ or $1 \times 5$. In future assignments we will be more careful to always use column vectors.
+function grad3(x)
+	n = length(x);
+	g = zeros(n)
+	for i in 1:n
+		g[i] = exp(-x[i]) / (1 + exp(-x[i]));
+	end
+	return g;
+end
+\end{lstlisting}
 
 \section{Algorithms and Data Structures Review}
 
