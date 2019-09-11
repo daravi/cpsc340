@@ -1,3 +1,4 @@
+using Test
 
 ### An example to get you started:
 
@@ -21,7 +22,7 @@ function grad1(x)
 	n = length(x);
 	g = zeros(n);
 	for i in 1:n
-		# Put gradient code here
+		g[i] = 3 * (x[i]^2)
 	end
 	return g
 end
@@ -56,3 +57,8 @@ function numGrad(func,x)
 	end
 	return g
 end
+
+@test grad0([10, 2]) ≈ numGrad(func0, [10 2]) atol=0.0001
+@test grad1([10, 2]) ≈ numGrad(func1, [10 2]) atol=0.0001
+# @test grad2([10, 2]) ≈ numGrad(func2, [10 2]) atol=0.0001
+# @test grad3([10, 2]) ≈ numGrad(func3, [10 2]) atol=0.0001

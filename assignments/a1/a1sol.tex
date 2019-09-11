@@ -40,58 +40,24 @@
 
 \begin{document}
 
-
-
 \title{CPSC 340 Assignment 1 (due Friday September 12 at 11:55pm)}
-% \author{Warm-up}
+% \author{Pooya Daravi - S\#:34584145}
 \date{}
 \maketitle
 \vspace{-4em}
 
-\emph{Commentary on Assignment 1}: CPSC 340 is tough because it combines knowledge and skills across several disciplines. To succeed
-in the course, you will need to know or very quickly get up to speed on:
-\begin{itemize}
-\item Math to the level of the course prerequisites: linear algebra, multivariable calculus, some probability.
-\item Basic Julia programming, and the ability to translate from math to programming and back.
-\item Statistics, algorithms, and data structures to the level of the course prerequisites.
-\item Some basic LaTeX skills so that you can typeset equations and submit your assignments.
-\end{itemize}
-
-The purpose of this assignment is to make sure you are prepared for this course. We anticipate that each
-of you will have different strengths and weaknesses, so don't be worried if you struggle with \emph{some} aspects
-of the assignment. But if you find this assignment
-to be very difficult overall, that is an early warning sign that you may not be prepared to take CPSC 340
-at this time. Future assignments will be more difficult than this one (and probably around the same length).
-
-Questions 1-4 are on review material, that we expect you to know coming into the course. The rest is related to the first few lectures.
-
-\textbf{IMPORTANT!!!!! Before proceeding, please carefully read the homework instructions}:\\ \url{www.cs.ubc.ca/~schmidtm/Courses/340-F19/assignments.pdf}
-
-\textbf{You may receive a 50\% deduction} on the assignment if you don't follow these instructions.
-
-We use \blu{blue} to highlight the deliverables that you must answer/do/submit with the assignment.
-
-You may also want to read the answers to this Quora question as motivation:\\
-{\scriptsize \url{https://www.quora.com/Why-should-one-learn-machine-learning-from-scratch-rather-than-just-learning-to-use-the-available-libraries}}
 
 \section*{Basic Information}
 
 
 \blu{\enum{
-\item Name:
-\ans{
-Use the ``ans'' command to add answers if you like.
-}
-\item Student ID:
+\item Name: Pooya Daravi
+\item Student ID: 34584145
 }
 }
 
 
 \section{Linear Algebra Review}
-
-For these questions you may find it helpful to review these notes on linear algebra:\\
-\url{http://www.cs.ubc.ca/~schmidtm/Documents/2009_Notes_LinearAlgebra.pdf}
-
 \subsection{Basic Operations}
 
 Use the definitions below,
@@ -120,50 +86,52 @@ A = \left[\begin{array}{ccc}
 \]
 and use $x_i$ to denote element $i$ of vector $x$.
 \blu{Evaluate the following expresions} (you do not need to show your work).
-\enum{
-\item $\sum_{i=1}^n x_iy_i$ (inner product).
-\item $\sum_{i=1}^n x_iz_i$ (inner product between orthogonal vectors).
-\item $\alpha(x+y)$ (vector addition and scalar multiplication).
-\item $\norm{x}$ (Euclidean norm of $x$).
-\item $x^T$ (vector tranpose).
-\item $Ax$ (matrix-vector multiplication).
-\item $x^TAx$ (quadratic form).
+
+\ans{
+    \enum{
+    \item $\sum_{i=1}^n x_iy_i$ = 14
+    \item $\sum_{i=1}^n x_iz_i$ = 0
+    \item $\alpha(x+y)$ = \[ \begin{bmatrix} 6 \\ 10 \\ 15 \end{bmatrix} \]
+    \item $\norm{x}$ = 5
+    \item $x^T$ = \[ \begin{bmatrix} 0 & 1 & 2 \end{bmatrix} \]
+    \item $Ax$ = \[ \begin{bmatrix} 6 \\ 5 \\ 7 \end{bmatrix} \]
+    \item $x^TAx$ = 19
+    }
 }
+
 
 \subsection{Matrix Algebra Rules}
 
 Assume that $\{x,y,z\}$ are $n \times 1$ column vectors and $\{A,B,C\}$ are $n \times n$ real-valued matrices, $0$ is the zero matrix of appropriate size, and $I$ is the identity matrix of appropriate size. \blu{State whether each of the below is true in general} (you do not need to show your work).
 
-\begin{enumerate}
-\item $x^Ty = \sum_{i=1}^n x_iy_i$.
-\item $x^Tx = \norm{x}^2$.
-\item $x^Tx = xx^T$.
-\item $(x-y)^T(y-x) = \norm{x}^2 - 2x^\top y + \norm{y}^2$.
-\item $AB=BA$.
-\item $A(B + C) = AB + AC$.
-\item $(AB)^T = A^TB^T$.
-\item $x^TAy = y^TA^Tx$.
-\item $A^\top A = I$ is the columns of $A$ are orthonormal.
-\end{enumerate}
+\ans{
+	\begin{enumerate}
+		\item $x^Ty = \sum_{i=1}^n x_iy_i$. ----- True
+		\item $x^Tx = \norm{x}^2$. ----- True
+		\item $x^Tx = xx^T$. ----- False
+		\item $(x-y)^T(y-x) = \norm{x}^2 - 2x^\top y + \norm{y}^2$. ----- False
+		\item $AB=BA$. ----- False
+		\item $A(B + C) = AB + AC$. ----- True
+		\item $(AB)^T = A^TB^T$. ----- False
+		\item $x^TAy = y^TA^Tx$. ----- False
+		\item $A^\top A = I$ is the columns of $A$ are orthonormal. ----- True ???
+	\end{enumerate}
+}
 
 
 \section{Probability Review}
-
-
-For these questions you may find it helpful to review these notes on probability:\\
-\url{http://www.cs.ubc.ca/~schmidtm/Courses/Notes/probability.pdf}\\
-And here are some slides giving visual representations of the ideas as well as some simple examples:\\
-\url{http://www.cs.ubc.ca/~schmidtm/Courses/Notes/probabilitySlides.pdf}
-
 \subsection{Rules of probability}
 
 \blu{Answer the following questions.} You do not need to show your work.
 
 \begin{enumerate}
 \item You are offered the opportunity to play the following game: your opponent rolls 2 regular 6-sided dice. If the difference between the two rolls is at least 3, you win \$15. Otherwise, you get nothing. What is a fair price for a ticket to play this game once? In other words, what is the expected value of playing the game?
+\ans{\$5}
 \item Consider two events $A$ and $B$ such that $\Pr(A, B)=0$ (they are mutually exclusive). If $\Pr(A) = 0.4$ and $\Pr(A \cup B) = 0.95$, what is $\Pr(B)$? Note: $p(A, B)$ means
 ``probability of $A$ and $B$'' while $p(A \cup B)$ means ``probability of $A$ or $B$''. It may be helpful to draw a Venn diagram.
+\ans{0.55}
 \item Instead of assuming that $A$ and $B$ are mutually exclusive ($\Pr(A,B) = 0)$, what is the answer to the previous question if we assume that $A$ and $B$ are independent?
+\ans{0.92}
 \end{enumerate}
 
 \subsection{Bayes Rule and Conditional Probability}
