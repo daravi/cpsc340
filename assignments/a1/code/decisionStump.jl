@@ -83,3 +83,76 @@ function decisionStumpEquality(X,y)
 
 	return StumpModel(predict,split,isempty(splitNo))
 end
+
+
+function decisionStump(X,y)
+	# Fits a decision stump based on inequality
+
+	# Get the size of the data matrix
+	(n,d) = size(X)
+
+	# Initialize the "best rule" with the baseline rule (no split)
+	y_mode = mode(y)
+	minError = sum(y .!= y_mode);
+	splitVariable = [];
+	splitValue = [];
+	splitLE = y_mode; # predicted label for less than or equal to the split value
+	splitGT = [];     # predicted label for greater than the split value
+
+	# Search for the best rule
+	# (Uses O(n^2d) approach to keep code simple)
+	yhat = zeros(n)
+	for j in 1:d
+		# Try unique values of column as split values
+		for val in unique(X[:,j])
+
+			# Test whether each object satisfies equality
+			lessThanOrEqual = X[:,j] .<= val
+	
+			# Find correct label on both sides of split
+			y_le = mode(y[lessThanOrEqual])
+			y_gt = mode(y[.!lessThanOrEqual])
+
+			# Make predictions
+			yhat[lessThanOrEqual] .= y_le
+			yhat[.!lessThanOrEqual] .= y_gt
+
+			# Compute error
+			trainError = sum(yhat .!= y)
+
+			# Update best rule
+			if trainError < minError
+				minError = trainError
+				splitVariable = j
+				splitValue = val
+				splitYes = y_le
+				splitNo = y_gt
+			end
+		end
+	end
+
+	# Now that we have the best rule,
+	# let's build our splitting function
+	function split(Xhat)
+		(t,d) = size(Xhat)
+		if isempty(splitVariable)
+			return fill(true,t)
+		else
+			return (Xhat[:,splitVariable] .<= splitValue)
+		end
+	end
+
+	# Now that we have the best rule,
+	# let's build our predict function
+	function predict(Xhat)
+		(t,d) = size(Xhat)
+		lessThanOrEqual = split(Xhat)
+		yhat = fill(splitLE,t)
+		if any(.!lessThanOrEqual)
+			yhat[.!lessThanOrEqual] .= splitGT
+		end
+		return yhat
+	end
+
+	return StumpModel(predict,split,isempty(splitGT))
+end
