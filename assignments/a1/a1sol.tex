@@ -251,37 +251,35 @@ Note: we'll use the standard convention that the leaves are not included in the 
 Included in \texttt{a1.zip} is file named \texttt{bigO.jl}, which defines several functions
 that take an integer argument $n$. For each function, \blu{state the running time as a function of $n$, using big-O notation}.
 
+\ans{
+	\begin{enumerate}
+		\item T(func1) = $O(1)$
+		\item T(func2) = $O(1)$
+		\item T(func3) = $O(n)$
+		\item T(func4) = $O(n^2)$
+	\end{enumerate}
+}
 
 \section{Summary Statistics and Data Visualization}
 
-The file \emph{a1.zip} contains estimates of the influenza-like illness percentage over 52 weeks on 2005-06 by Google Flu Trends in a comma-separated values (CSV) file. You can open this with Excel or other spreadsheet programs; the first row gives the abbreviation of the region names for each column, and each row gives the estimate for a week.
-After you change to the a0 directory, you can load this data in Julia using:
-\begin{verbatim}
-using DelimitedFiles
-dataTable = readdlm("fluTrends.csv",',')
-\end{verbatim}
-This creates an two-dimensional array of type ``Any''  populated with all the information in the CSV file.
-
 \subsection{Summary Statistics}
 
-\blu{Report the following statistics}: the minimum, maximum, mean, median, and mode of all values across the dataset. In light of thea above, \blu{is the mode a reliable estimate of the most ``common" value? Describe another way we could give a meaningful ``mode" measurement for this (continuous) data.}
+\blu{Report the following statistics}: the minimum, maximum, mean, median, and mode of all values across the dataset.
+\ans{
+	\begin{enumerate}
+		\item minimum: 0.352
+		\item maximum: 4.862
+		\item mean: 1.325
+		\item median: 1.159
+		\item mode: 0.77
+	\end{enumerate}
+}
 
-Hint: Since the first row of the CSV file is just the names of the columns, we can create a matrix $X$ containing the data stored as real numbers using:
-\begin{verbatim}
-X = real(dataTable[2:end,:])
-\end{verbatim}
-You can make Julia dispaly the matrix $X$ using
-\begin{verbatim}
-@show X
-\end{verbatim}
-The \emph{show} macro can be used to display the result of any expression, like showing the tenth row of $X$:
-\begin{verbatim}
-@show X[10,:]
-\end{verbatim}
-Note that this can be run inside functions, so it's helpful for debugging.
+In light of thea above, \blu{is the mode a reliable estimate of the most ``common" value? Describe another way we could give a meaningful ``mode" measurement for this (continuous) data.}
 
-Julia has a mean and median function available, if you include the Statistics package. This package does not have a mode command, so I've included one in `misc.jl'.
-
+\ans{
+	No. Since our data freqeuencies are very small compared to the different possible values, the mode does not meaningfully represent commonality. To have a more meaningful mode we could re-code our data into bins large enough that the result does have frequency values comparable to the number of bins. And therefore the mode would be representing a significant portion of the data and be an appropriate statistical measure of commonality.
+}
 
 \subsection{Data Visualization}
 
@@ -297,45 +295,39 @@ The figure contains the following plots, in a shuffled order:
 }
 \blu{Match the plots (labeled A-F) with the descriptions above (labeled 1-6), with an extremely brief (a few words is fine) explanation for each decision.}
 
-Hint: you can generate similar plots by adding the PyPlot package. To add this package use:
-\begin{verbatim}
-using Pkg # Loads the package manager
-Pkg.add("PyPlot") # Only needs to be done once  (installs a Julia-callable Python build)
-using PyPlot # Do this once per session
-plot(1:52,X[:,1]) # Plot the first row
-\end{verbatim}
-To generate similar-looking plots you can use the functions `plot', `boxplot', `plt.hist', and `scatter'.
-
+\ans{
+	\begin{enumerate}
+		\item A -> 6 --- Axes match the description and each coloured line corresponds to a region
+		\item B -> 2 --- The only boxplot graph! (which also matches the description)
+		\item C -> 1 --- Simplest histogram that matches the description
+		\item D -> 4 --- Each colour is a histogram of the corresponding column
+		\item E -> 5 --- Less correlation -> data spread more as opposed to being linear
+		\item F -> 3 --- High correlation -> closer to a straight line
+	\end{enumerate}
+}
 
 \subsection{Decision Surfaces}
 
-Consider the figure below, which plots a set of two-dimensional training examples and the decision surface produced by a ``neural network'' classifier (a model we'll see later in the course).
-\blu{How many training examples has the neural network mis-classified?} (This figure is best viewed in colour.)
+\blu{How many training examples has the neural network mis-classified?}
+\ans{
+	17
+}
 
 
 \section{Decision Trees}
-
-If you run the file \emph{example\_decisionStump.jl}, it will load a dataset containing longtitude and latitude data for 400 cities in the US, along with a class label indicating whether they were a ``red" state or a ``blue" state in the 2012 election.\footnote{The cities data was sampled from \url{http://simplemaps.com/static/demos/resources/us-cities/cities.csv}. The election information was collected from Wikipedia.} Specifically, the first column of the variable $X$ contains the longitude and the second variable contains the latitude, while the variable $y$ is set to $1$ for blue states and $2$ for red states. After it loads the data, it plots the data and then fits two simple classifiers: a classifier that always predicts the most common label ($1$ in this case) and a decision stump that discretizes the features (by rounding to the nearest integer) and then finds the best equality-based rule (i.e., check if a feature is \emph{equal} to some value). It reports the training error with these two classifiers, then plots the decision areas made by the decision stump. The plot should look like this:
-
-Note that these functions use the ``JLD'' package for loading the data and the ``PyPlot'' and ``PyCall'' package to do the plotting. You can install these packages using:
-\begin{verbatim}
-using Pkg
-Pkg.add("JLD")
-Pkg.add("PyPlot")
-Pkg.add("PyCall")
-\end{verbatim}
 
 \subsection{Equality vs. Inequality Splitting Rules}
 
 In class we discussed splitting rules based on inequalities rather than equalities. \blu{Is there a type of feature where it makes sense to use 
 an equality-based splitting rule?}
 
-
-
+\ans{
+	Yes. For categorical or binary features it makes sense to use equality rather than inequlity. Or where a number has significance. For example one can split on age=19 when answering the question "does a person drink on their birthday". However equality based rule does not make sense for this problem as the pattern is more area based (a continues region of lat/long) as opposed to being based on specific longitudes or latitudes.
+}
 
 \subsection{Decision Stump Implementation}
 
-The file \emph{decisionstump.jl} contains a function  that finds the best decision stump using the equality rule (``decisionStumpEquality''), and then returns a function that can apply this decision stump to new data. Instead of discretizing the data and using a rule based on testing an equality for a single feature, we want to check whether a feature is above a threshold and split the data accordingly (this is the more sane approach, which we discussed in class). \blu{Add a new function ``decisionStump'' to \emph{decision\_stump.jl} that finds the best inequality-based rule, and report the updated error you obtain by using inequalities instead of discretizing and testing equality.}
+\blu{Add a new function ``decisionStump'' to \emph{decisionStump.jl} that finds the best inequality-based rule, and report the updated error you obtain by using inequalities instead of discretizing and testing equality.}
 
 Hint: you may want to start by copy/pasting the contents of of the ``decisionStumpEquality'' function and then make modifications from there. Note that you should remove the calls to the ``round'' function for the inequality case.  Make sure that you maintain the same input/output format in your function, since otherwise subsequent questions will not work (it should produce a plot that divides the US into a northern blue and a southern red area).
 If you are new to Julia, you may also want to look at\emph{majorityPredictor.jl} to get an idea of the syntax in  a simpler case.
