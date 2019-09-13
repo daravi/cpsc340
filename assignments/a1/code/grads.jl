@@ -71,3 +71,5 @@ end
 	@test grad2([10, 2]) ≈ numGrad(func2, [10 2]) atol=0.0001
 	@test grad3([10, 2]) ≈ numGrad(func3, [10 2]) atol=0.0001
 end
+
+@show grad0([10, 2])

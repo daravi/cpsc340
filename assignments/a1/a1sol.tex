@@ -167,10 +167,12 @@ Suppose a drug test produces a positive result with probability $0.95$ for drug 
 
 \begin{enumerate}
 \item Find the derivative of the function $f(x) = 3x^2 -2x + 5$.
+\ans{$6x - 2$}
 \item Find the derivative of the function $f(x) = x(1-x)$.
+\ans{$1 - 2x$}
 \item Let $p(x) = \frac{1}{1+\exp(-x)}$ for $x \in \R$. Compute the derivative of the function $f(x) = x-\log(p(x))$ and simplify it by using the function $p(x)$.
+\ans{$\frac{\exp(x)}{1+exp(x)}$}
 \end{enumerate}
-Note that in this course we will use $\log(x)$ to mean the ``natural'' logarithm of $x$, so that $\log(\exp(1)) = 1$. Also, obseve that $p(x) = 1-p(-x)$ for the final part.
 
 \subsection{Multi-variable derivatives}
 
@@ -178,17 +180,18 @@ Note that in this course we will use $\log(x)$ to mean the ``natural'' logarithm
 \begin{enumerate}
 % \item $f_1(x) = \sin(x)$
 \item $f(x) = x_1^2 + \exp(x_2)$ where $x \in \R^2$.
+\ans{$\left[\begin{array}{cc} 2x_1 & \exp(x_2) \end{array}\right]$}
 \item $f(x) = \exp(x_1 + x_2x_3)$ where $x \in \mathbb{R}^3$.
+\ans{$\left[\begin{array}{ccc} 1 & x_2 & x_3 \end{array}\right]$}
 \item $f(x) = a^Tx$ where $x \in \R^2$ and $a \in \R^2$.
+\ans{$a^T$}
 \item $f(x) = x^\top A x$ where $A=\left[ \begin{array}{cc}
 2 & -1 \\
  -1 & 1 \end{array} \right]$ and $x \in \mathbb{R}^2$.
- \item $f(x) = \frac{1}{2}\norm{x}^2$ where $x \in \R^d$.
+\ans{$\left[\begin{array}{cc} 4x_1 - 2x_2 & 2x_2 - 2x_1 \end{array}\right]$}
+\item $f(x) = \frac{1}{2}\norm{x}^2$ where $x \in \R^d$.
+\ans{x}
 \end{enumerate}
-
-Hint: it is helpful to write out the linear algebra expressions in terms of summations.
-
-
 
 \subsection{Derivatives of code}
 
@@ -223,30 +226,35 @@ end
 
 \section{Algorithms and Data Structures Review}
 
-For these questions you may find it helpful to review these notes on big-O notation:\\
-\url{http://www.cs.ubc.ca/~schmidtm/Courses/Notes/bigO.pdf}
-
 \subsection{Trees}
 
 \blu{Answer the following questions} You do not need to show your work.
 \begin{enumerate}
 \item What is the maximum number of \emph{leaves} you could have in a binary tree of depth $l$?
+\ans{$2^l$}
 \item What is the maximum number of \emph{internal nodes} (excluding leaves) you could have in a binary tree of depth $l$?
+\ans{$2^l-1$}
 \end{enumerate}
 Note: we'll use the standard convention that the leaves are not included in the depth, so a tree with depth $1$ has 3 nodes with 2 leaves.
-
 
 \subsection{Common Runtimes}
 
 \blu{Answer the following questions using big-$O$ notation} You do not need to show your work.
 \begin{enumerate}
 \item What is the cost of running the mergesort algorithm to sort  a list of $n$ numbers?
+\ans{$O(n.log(n)$)}
 \item What is the cost of finding the third-largest element of an unsorted list of $n$ numbers?
+\ans{$O(n)$}
 \item What is the cost of finding the smallest element greater than 0 in a \emph{sorted} list with $n$ numbers?
+\ans{$O(n)$}
 \item What is the cost of finding the value associated with a key in a hash table with $n$ numbers? \\(Assume the values and keys are both scalars.)
+\ans{$O(1)$}
 \item What is the cost of computing the matrix-vector product $Ax$ when $A$ is $n \times d$ and $x$ is $d \times 1$?
+\ans{$O(nd)$}
 \item What is the cost of computing the quadratic form $x^TAx$ when $A$ is $d \times d$ and $x$ is $d \times 1$?
+\ans{$O(d^2)$}
 \item How does the answer to the previous question change if $A$ has only $z$ non-zeroes? (You can assume $z \geq d$)
+\ans{$O(z)$}
 \end{enumerate}
 
 \subsection{Running times of code}
@@ -281,7 +289,7 @@ that take an integer argument $n$. For each function, \blu{state the running tim
 In light of thea above, \blu{is the mode a reliable estimate of the most ``common" value? Describe another way we could give a meaningful ``mode" measurement for this (continuous) data.}
 
 \ans{
-	No. Since our data freqeuencies are very small compared to the different possible values, the mode does not meaningfully represent commonality. To have a more meaningful mode we could re-code our data into bins large enough that the result does have frequency values comparable to the number of bins. And therefore the mode would be representing a significant portion of the data and be an appropriate statistical measure of commonality.
+	\emph{\underline{No}}. Since our data freqeuencies are very small compared to the different possible values, the mode does not meaningfully represent commonality. To have a more meaningful mode we could re-code our data into bins large enough that the result does have frequency values comparable to the number of bins. And therefore the mode would be representing a significant portion of the data and be an appropriate statistical measure of commonality.
 }
 
 \subsection{Data Visualization}
@@ -439,10 +447,8 @@ Once your \emph{decisionStump} function is finished, the script \emph{example\_d
 
 In class, we discussed how in general the decision stump minimizing the classification error can be found in $O(nd\log n)$ time. Using the greedy recursive splitting procedure, \blu{what is the total cost of fitting a decision tree of depth $m$ in terms of $n$, $d$, and $m$?} 
 
-Hint: even thought there could be $(2^m-1)$ decision stumps, keep in mind not every stump will need to go through every example. Note also that we stop growing the decision tree if a node has no examples, so we may not even need to do anything for many of the $(2^m-1)$ decision stumps.
-
-\vspace{25pt}
-\textbf{HAVE YOU DOUBLE CHECKED THAT YOU'RE FOLLOWING ALL THE ASSIGNMENT SUBMISSION INSTRUCTIONS???}\\
-\url{www.cs.ubc.ca/~schmidtm/Courses/340-F19/assignments.pdf}
+\ans{
+	First stump (root) takes $O(nd\log{n})$. On average we assume the stump breaks the input data in half and in worst case scenario the "best" stump does nothing to change the distribution of the labels. This means the left stump will take $O(\frac{n}{2}d\log{\frac{n}{2}})$. Which solved by induction results in total cost of $O(nd(\log{n})^2)$
+}
 
 \end{document}
