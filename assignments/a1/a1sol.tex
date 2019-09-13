@@ -12,6 +12,8 @@
 \usepackage{listings} % For displaying code
 \usepackage{jlcode} % for Julia code styling
 
+\graphicspath{ {./images/} }
+
 % Answers
 \def\ans#1{\par\gre{Answer: #1}}
 
@@ -329,14 +331,108 @@ an equality-based splitting rule?}
 
 \blu{Add a new function ``decisionStump'' to \emph{decisionStump.jl} that finds the best inequality-based rule, and report the updated error you obtain by using inequalities instead of discretizing and testing equality.}
 
-Hint: you may want to start by copy/pasting the contents of of the ``decisionStumpEquality'' function and then make modifications from there. Note that you should remove the calls to the ``round'' function for the inequality case.  Make sure that you maintain the same input/output format in your function, since otherwise subsequent questions will not work (it should produce a plot that divides the US into a northern blue and a southern red area).
-If you are new to Julia, you may also want to look at\emph{majorityPredictor.jl} to get an idea of the syntax in  a simpler case.
+\begin{lstlisting}[language=julia]
+	function decisionStump(X,y)
+		# Fits a decision stump based on inequality
+
+		# Get the size of the data matrix
+		(n,d) = size(X)
+
+		# Initialize the "best rule" with the baseline rule (no split)
+		y_mode = mode(y)
+		minError = sum(y .!= y_mode);
+		splitVariable = [];
+		splitValue = [];
+		splitLE = y_mode; # predicted label for less than or equal to the split value
+		splitGT = [];     # predicted label for greater than the split value
+
+		# Search for the best rule
+		# (Uses O(n^2d) approach to keep code simple)
+		yhat = zeros(n)
+		for j in 1:d
+			# Try unique values of column as split values
+			for val in unique(X[:,j])
+
+				# Test whether each object satisfies inequality
+				lessThanOrEqual = X[:,j] .<= val
+
+				# Find correct label on both sides of split
+				y_le = mode(y[lessThanOrEqual])
+				y_gt = mode(y[.!lessThanOrEqual])
+
+				# Make predictions
+				yhat[lessThanOrEqual] .= y_le
+				yhat[.!lessThanOrEqual] .= y_gt
+
+				# Compute error
+				trainError = sum(yhat .!= y)
+
+				# Update best rule
+				if trainError < minError
+					minError = trainError
+					splitVariable = j
+					splitValue = val
+					splitLE = y_le
+					splitGT = y_gt
+				end
+			end
+		end
+
+		# Now that we have the best rule,
+		# let's build our splitting function
+		function split(Xhat)
+			(t,d) = size(Xhat)
+			if isempty(splitVariable)
+				return fill(true,t)
+			else
+				return (Xhat[:,splitVariable] .<= splitValue)
+			end
+		end
+
+		# Now that we have the best rule,
+		# let's build our predict function
+		function predict(Xhat)
+			(t,d) = size(Xhat)
+			lessThanOrEqual = split(Xhat)
+			yhat = fill(splitLE,t)
+			if any(.!lessThanOrEqual)
+				yhat[.!lessThanOrEqual] .= splitGT
+			end
+			return yhat
+		end
+
+		return StumpModel(predict,split,isempty(splitGT))
+	end
+\end{lstlisting}
+
+\includegraphics{inequality.png}
 
 \subsection{Constructing Decision Trees}
 
 Once your \emph{decisionStump} function is finished, the script \emph{example\_decisionTree} will be able to fit a decision tree of depth 2 to the same dataset (which results in a lower training error). Look at how the decision tree is stored and how the (recursive) \emph{predict} function works. \blu{Using the same splits as the fitted depth-2 decision tree, write out what an alternate version of the predict function would be for classifying one training example as a simple program using if/else statements (as in the first slide of L3 that has the title ``Decision Trees'').}
 
-Hint: you can use use the ``@show'' macro to print the values of various expressions during the execution of a .jl file.
+\begin{lstlisting}[language=julia]
+	function predict(Xhat)
+		(t,d) = size(Xhat)
+		yhat = zeros(t)
+		for i in 1:t
+			if Xhat[i,2] <= 37.669007
+				if Xhat[i,1] <= -115.577574
+					yhat[i] = 1
+				else
+					yhat[i] = 2
+				end
+			else
+				if Xhat[i,1] <= -96.090109
+					yhat[i] = 2
+				else
+					yhat[i] = 1
+				end
+			end
+		end
+		return yhat
+	end
+\end{lstlisting}
 
 \subsection{Cost of Fitting Decision Trees}
 

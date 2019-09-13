@@ -1,6 +1,6 @@
 include("misc.jl") # Includes "mode" function
 
-# First let's define a "type", 
+# First let's define a "type",
 # specifying the functions/varaibles we want the stump to have
 mutable struct StumpModel
 	predict # Function that makes predictions
@@ -34,7 +34,7 @@ function decisionStumpEquality(X,y)
 
 			# Test whether each object satisfies equality
 			yes = X[:,j] .== val
-	
+
 			# Find correct label on both sides of split
 			y_yes = mode(y[yes])
 			y_no = mode(y[.!yes])
@@ -106,9 +106,9 @@ function decisionStump(X,y)
 		# Try unique values of column as split values
 		for val in unique(X[:,j])
 
-			# Test whether each object satisfies equality
+			# Test whether each object satisfies inequality
 			lessThanOrEqual = X[:,j] .<= val
-	
+
 			# Find correct label on both sides of split
 			y_le = mode(y[lessThanOrEqual])
 			y_gt = mode(y[.!lessThanOrEqual])
@@ -125,11 +125,13 @@ function decisionStump(X,y)
 				minError = trainError
 				splitVariable = j
 				splitValue = val
-				splitYes = y_le
-				splitNo = y_gt
+				splitLE = y_le
+				splitGT = y_gt
 			end
 		end
 	end
+
+	@show splitVariable, splitValue, splitLE, splitGT
 
 	# Now that we have the best rule,
 	# let's build our splitting function
