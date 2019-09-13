@@ -118,7 +118,7 @@ Assume that $\{x,y,z\}$ are $n \times 1$ column vectors and $\{A,B,C\}$ are $n \
 		\item $A(B + C) = AB + AC$. ----- True
 		\item $(AB)^T = A^TB^T$. ----- False
 		\item $x^TAy = y^TA^Tx$. ----- False
-		\item $A^\top A = I$ is the columns of $A$ are orthonormal. ----- True ???
+		\item $A^\top A = I$ is the columns of $A$ are orthonormal. ----- True
 	\end{enumerate}
 }
 
@@ -146,18 +146,19 @@ Suppose a drug test produces a positive result with probability $0.95$ for drug 
 
 \begin{enumerate}
 \item What is the probability that a random person would test positive, $P(T=1)$?
-\item In the above, do most of these positive tests come from true positives or from false positives? 
+\ans{0.010094 $\approx$ 0.01}
+\item In the above, do most of these positive tests come from true positives or from false positives?
+\ans{Comparing true positives ($P(T=1,D=1)\approx0.001$) and false positives ($P(T=1, D=0)\approx0.01$) we see that most come from \emph{\underline{false positives}}.}
 \item What is the probability that a random person who tests positive is a user, $P(D=1|T=1)$?
+\ans{$P(D=1|T=1) = P(D=1,T=1)/P(T=1) = 0.0094115316 \approx \emph{\underline{0.0094}}$}
 \item Suppose you have given this test to a random person and it came back positive, are they likely to be a drug user?
+\ans{\emph{\underline{No}}. As seen in previous part the probability is about 0.01}
 \item What is one factor you could change to make this a more useful test?
+\ans{We need to either improve (increase) $P(T=1|D=1)$ or $P(T=0|D=0)$. Considering the presumption of innocence, I would argue it would be a more ethical test if we \emph{\underline{increase $P(T=0|D=0)$}} in the case that we have to choose only one to improve. (i.e. prioritizing not punishing an innocent person over punishing a guilty person)}
 \end{enumerate}
 
 
-
 \section{Calculus Review}
-
-For these questions you may find it helpful to review these notes on calculus:\\
-\url{http://www.cs.ubc.ca/~schmidtm/Courses/Notes/calculus.pdf}\\
 
 
 \subsection{One-variable derivatives}
