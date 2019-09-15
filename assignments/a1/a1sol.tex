@@ -95,10 +95,10 @@ and use $x_i$ to denote element $i$ of vector $x$.
     \enum{
     \item $\sum_{i=1}^n x_iy_i$ = 14
     \item $\sum_{i=1}^n x_iz_i$ = 0
-    \item $\alpha(x+y)$ = \[ \begin{bmatrix} 6 \\ 10 \\ 15 \end{bmatrix} \]
-    \item $\norm{x}$ = 5
-    \item $x^T$ = \[ \begin{bmatrix} 0 & 1 & 2 \end{bmatrix} \]
-    \item $Ax$ = \[ \begin{bmatrix} 6 \\ 5 \\ 7 \end{bmatrix} \]
+    \item $\alpha(x+y) = \left[\begin{array}{ccc} 6 \\ 10 \\ 14 \end{array}\right]$
+    \item $\norm{x} = \sqrt{5}$
+    \item $x^T = \left[\begin{array}{ccc} 0 & 1 & 2 \end{array}\right]$
+    \item $Ax = \left[\begin{array}{ccc} 6 \\ 5 \\ 7 \end{array}\right]$
     \item $x^TAx$ = 19
     }
 }
@@ -117,7 +117,7 @@ Assume that $\{x,y,z\}$ are $n \times 1$ column vectors and $\{A,B,C\}$ are $n \
 		\item $AB=BA$. ----- False
 		\item $A(B + C) = AB + AC$. ----- True
 		\item $(AB)^T = A^TB^T$. ----- False
-		\item $x^TAy = y^TA^Tx$. ----- False
+		\item $x^TAy = y^TA^Tx$. ----- True
 		\item $A^\top A = I$ is the columns of $A$ are orthonormal. ----- True
 	\end{enumerate}
 }
@@ -171,7 +171,7 @@ Suppose a drug test produces a positive result with probability $0.95$ for drug 
 \item Find the derivative of the function $f(x) = x(1-x)$.
 \ans{$1 - 2x$}
 \item Let $p(x) = \frac{1}{1+\exp(-x)}$ for $x \in \R$. Compute the derivative of the function $f(x) = x-\log(p(x))$ and simplify it by using the function $p(x)$.
-\ans{$\frac{\exp(x)}{1+exp(x)}$}
+\ans{$p(x)$}
 \end{enumerate}
 
 \subsection{Multi-variable derivatives}
@@ -182,7 +182,7 @@ Suppose a drug test produces a positive result with probability $0.95$ for drug 
 \item $f(x) = x_1^2 + \exp(x_2)$ where $x \in \R^2$.
 \ans{$\left[\begin{array}{cc} 2x_1 & \exp(x_2) \end{array}\right]$}
 \item $f(x) = \exp(x_1 + x_2x_3)$ where $x \in \mathbb{R}^3$.
-\ans{$\left[\begin{array}{ccc} 1 & x_2 & x_3 \end{array}\right]$}
+\ans{$\left[\begin{array}{ccc} 1 & x_2 & x_3 \end{array}\right].f$}
 \item $f(x) = a^Tx$ where $x \in \R^2$ and $a \in \R^2$.
 \ans{$a^T$}
 \item $f(x) = x^\top A x$ where $A=\left[ \begin{array}{cc}
@@ -246,7 +246,7 @@ Note: we'll use the standard convention that the leaves are not included in the 
 \item What is the cost of finding the third-largest element of an unsorted list of $n$ numbers?
 \ans{$O(n)$}
 \item What is the cost of finding the smallest element greater than 0 in a \emph{sorted} list with $n$ numbers?
-\ans{$O(n)$}
+\ans{$O(\log{n})$}
 \item What is the cost of finding the value associated with a key in a hash table with $n$ numbers? \\(Assume the values and keys are both scalars.)
 \ans{$O(1)$}
 \item What is the cost of computing the matrix-vector product $Ax$ when $A$ is $n \times d$ and $x$ is $d \times 1$?
@@ -264,7 +264,7 @@ that take an integer argument $n$. For each function, \blu{state the running tim
 
 \ans{
 	\begin{enumerate}
-		\item T(func1) = $O(1)$
+		\item T(func1) = $O(n)$
 		\item T(func2) = $O(1)$
 		\item T(func3) = $O(n)$
 		\item T(func4) = $O(n^2)$
@@ -448,7 +448,8 @@ Once your \emph{decisionStump} function is finished, the script \emph{example\_d
 In class, we discussed how in general the decision stump minimizing the classification error can be found in $O(nd\log n)$ time. Using the greedy recursive splitting procedure, \blu{what is the total cost of fitting a decision tree of depth $m$ in terms of $n$, $d$, and $m$?} 
 
 \ans{
-	First stump (root) takes $O(nd\log{n})$. On average we assume the stump breaks the input data in half and in worst case scenario the "best" stump does nothing to change the distribution of the labels. This means the left stump will take $O(\frac{n}{2}d\log{\frac{n}{2}})$. Which solved by induction results in total cost of $O(nd(\log{n})^2)$
+	First stump (root) takes $O(nd\log{n})$. For big-O we assume worst case scenario, i.e. the stump does nothing (all examples are passed to the next level). In which case all \emph{m} layers have the same cost of $O(nd\log{n})$ resulting in a total cost of:\\
+	$O(mnd\log{n})$
 }
 
 \end{document}
