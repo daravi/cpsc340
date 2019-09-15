@@ -10,6 +10,9 @@
 \usepackage{amssymb}
 \usepackage{nicefrac}
 \usepackage{listings} % For displaying code
+\usepackage{jlcode} % for Julia code styling
+
+\graphicspath{ {./images/} }
 
 % Answers
 \def\ans#1{\par\gre{Answer: #1}}
@@ -39,59 +42,26 @@
 
 
 \begin{document}
-
-
+\lstset{language=julia}
 
 \title{CPSC 340 Assignment 1 (due Friday September 12 at 11:55pm)}
-% \author{Warm-up}
+% \author{Pooya Daravi - S\#:34584145}
 \date{}
 \maketitle
 \vspace{-4em}
 
-\emph{Commentary on Assignment 1}: CPSC 340 is tough because it combines knowledge and skills across several disciplines. To succeed
-in the course, you will need to know or very quickly get up to speed on:
-\begin{itemize}
-\item Math to the level of the course prerequisites: linear algebra, multivariable calculus, some probability.
-\item Basic Julia programming, and the ability to translate from math to programming and back.
-\item Statistics, algorithms, and data structures to the level of the course prerequisites.
-\item Some basic LaTeX skills so that you can typeset equations and submit your assignments.
-\end{itemize}
-
-The purpose of this assignment is to make sure you are prepared for this course. We anticipate that each
-of you will have different strengths and weaknesses, so don't be worried if you struggle with \emph{some} aspects
-of the assignment. But if you find this assignment
-to be very difficult overall, that is an early warning sign that you may not be prepared to take CPSC 340
-at this time. Future assignments will be more difficult than this one (and probably around the same length).
-
-Questions 1-4 are on review material, that we expect you to know coming into the course. The rest is related to the first few lectures.
-
-\textbf{IMPORTANT!!!!! Before proceeding, please carefully read the homework instructions}:\\ \url{www.cs.ubc.ca/~schmidtm/Courses/340-F19/assignments.pdf}
-
-\textbf{You may receive a 50\% deduction} on the assignment if you don't follow these instructions.
-
-We use \blu{blue} to highlight the deliverables that you must answer/do/submit with the assignment.
-
-You may also want to read the answers to this Quora question as motivation:\\
-{\scriptsize \url{https://www.quora.com/Why-should-one-learn-machine-learning-from-scratch-rather-than-just-learning-to-use-the-available-libraries}}
 
 \section*{Basic Information}
 
 
 \blu{\enum{
-\item Name:
-\ans{
-Use the ``ans'' command to add answers if you like.
-}
-\item Student ID:
+\item Name: Pooya Daravi
+\item Student ID: 34584145
 }
 }
 
 
 \section{Linear Algebra Review}
-
-For these questions you may find it helpful to review these notes on linear algebra:\\
-\url{http://www.cs.ubc.ca/~schmidtm/Documents/2009_Notes_LinearAlgebra.pdf}
-
 \subsection{Basic Operations}
 
 Use the definitions below,
@@ -120,50 +90,52 @@ A = \left[\begin{array}{ccc}
 \]
 and use $x_i$ to denote element $i$ of vector $x$.
 \blu{Evaluate the following expresions} (you do not need to show your work).
-\enum{
-\item $\sum_{i=1}^n x_iy_i$ (inner product).
-\item $\sum_{i=1}^n x_iz_i$ (inner product between orthogonal vectors).
-\item $\alpha(x+y)$ (vector addition and scalar multiplication).
-\item $\norm{x}$ (Euclidean norm of $x$).
-\item $x^T$ (vector tranpose).
-\item $Ax$ (matrix-vector multiplication).
-\item $x^TAx$ (quadratic form).
+
+\ans{
+    \enum{
+    \item $\sum_{i=1}^n x_iy_i$ = 14
+    \item $\sum_{i=1}^n x_iz_i$ = 0
+    \item $\alpha(x+y) = \left[\begin{array}{ccc} 6 \\ 10 \\ 14 \end{array}\right]$
+    \item $\norm{x} = \sqrt{5}$
+    \item $x^T = \left[\begin{array}{ccc} 0 & 1 & 2 \end{array}\right]$
+    \item $Ax = \left[\begin{array}{ccc} 6 \\ 5 \\ 7 \end{array}\right]$
+    \item $x^TAx$ = 19
+    }
 }
+
 
 \subsection{Matrix Algebra Rules}
 
 Assume that $\{x,y,z\}$ are $n \times 1$ column vectors and $\{A,B,C\}$ are $n \times n$ real-valued matrices, $0$ is the zero matrix of appropriate size, and $I$ is the identity matrix of appropriate size. \blu{State whether each of the below is true in general} (you do not need to show your work).
 
-\begin{enumerate}
-\item $x^Ty = \sum_{i=1}^n x_iy_i$.
-\item $x^Tx = \norm{x}^2$.
-\item $x^Tx = xx^T$.
-\item $(x-y)^T(y-x) = \norm{x}^2 - 2x^\top y + \norm{y}^2$.
-\item $AB=BA$.
-\item $A(B + C) = AB + AC$.
-\item $(AB)^T = A^TB^T$.
-\item $x^TAy = y^TA^Tx$.
-\item $A^\top A = I$ is the columns of $A$ are orthonormal.
-\end{enumerate}
+\ans{
+	\begin{enumerate}
+		\item $x^Ty = \sum_{i=1}^n x_iy_i$. ----- True
+		\item $x^Tx = \norm{x}^2$. ----- True
+		\item $x^Tx = xx^T$. ----- False
+		\item $(x-y)^T(y-x) = \norm{x}^2 - 2x^\top y + \norm{y}^2$. ----- False
+		\item $AB=BA$. ----- False
+		\item $A(B + C) = AB + AC$. ----- True
+		\item $(AB)^T = A^TB^T$. ----- False
+		\item $x^TAy = y^TA^Tx$. ----- True
+		\item $A^\top A = I$ is the columns of $A$ are orthonormal. ----- True
+	\end{enumerate}
+}
 
 
 \section{Probability Review}
-
-
-For these questions you may find it helpful to review these notes on probability:\\
-\url{http://www.cs.ubc.ca/~schmidtm/Courses/Notes/probability.pdf}\\
-And here are some slides giving visual representations of the ideas as well as some simple examples:\\
-\url{http://www.cs.ubc.ca/~schmidtm/Courses/Notes/probabilitySlides.pdf}
-
 \subsection{Rules of probability}
 
 \blu{Answer the following questions.} You do not need to show your work.
 
 \begin{enumerate}
 \item You are offered the opportunity to play the following game: your opponent rolls 2 regular 6-sided dice. If the difference between the two rolls is at least 3, you win \$15. Otherwise, you get nothing. What is a fair price for a ticket to play this game once? In other words, what is the expected value of playing the game?
+\ans{\$5}
 \item Consider two events $A$ and $B$ such that $\Pr(A, B)=0$ (they are mutually exclusive). If $\Pr(A) = 0.4$ and $\Pr(A \cup B) = 0.95$, what is $\Pr(B)$? Note: $p(A, B)$ means
 ``probability of $A$ and $B$'' while $p(A \cup B)$ means ``probability of $A$ or $B$''. It may be helpful to draw a Venn diagram.
+\ans{0.55}
 \item Instead of assuming that $A$ and $B$ are mutually exclusive ($\Pr(A,B) = 0)$, what is the answer to the previous question if we assume that $A$ and $B$ are independent?
+\ans{0.92}
 \end{enumerate}
 
 \subsection{Bayes Rule and Conditional Probability}
@@ -174,18 +146,19 @@ Suppose a drug test produces a positive result with probability $0.95$ for drug 
 
 \begin{enumerate}
 \item What is the probability that a random person would test positive, $P(T=1)$?
-\item In the above, do most of these positive tests come from true positives or from false positives? 
+\ans{0.010094 $\approx$ 0.01}
+\item In the above, do most of these positive tests come from true positives or from false positives?
+\ans{Comparing true positives ($P(T=1,D=1)\approx0.001$) and false positives ($P(T=1, D=0)\approx0.01$) we see that most come from \emph{\underline{false positives}}.}
 \item What is the probability that a random person who tests positive is a user, $P(D=1|T=1)$?
+\ans{$P(D=1|T=1) = P(D=1,T=1)/P(T=1) = 0.0094115316 \approx \emph{\underline{0.0094}}$}
 \item Suppose you have given this test to a random person and it came back positive, are they likely to be a drug user?
+\ans{\emph{\underline{No}}. As seen in previous part the probability is about 0.01}
 \item What is one factor you could change to make this a more useful test?
+\ans{We need to either improve (increase) $P(T=1|D=1)$ or $P(T=0|D=0)$. Considering the presumption of innocence, I would argue it would be a more ethical test if we \emph{\underline{increase $P(T=0|D=0)$}} in the case that we have to choose only one to improve. (i.e. prioritizing not punishing an innocent person over punishing a guilty person)}
 \end{enumerate}
 
 
-
 \section{Calculus Review}
-
-For these questions you may find it helpful to review these notes on calculus:\\
-\url{http://www.cs.ubc.ca/~schmidtm/Courses/Notes/calculus.pdf}\\
 
 
 \subsection{One-variable derivatives}
@@ -194,10 +167,12 @@ For these questions you may find it helpful to review these notes on calculus:\\
 
 \begin{enumerate}
 \item Find the derivative of the function $f(x) = 3x^2 -2x + 5$.
+\ans{$6x - 2$}
 \item Find the derivative of the function $f(x) = x(1-x)$.
+\ans{$1 - 2x$}
 \item Let $p(x) = \frac{1}{1+\exp(-x)}$ for $x \in \R$. Compute the derivative of the function $f(x) = x-\log(p(x))$ and simplify it by using the function $p(x)$.
+\ans{$p(x)$}
 \end{enumerate}
-Note that in this course we will use $\log(x)$ to mean the ``natural'' logarithm of $x$, so that $\log(\exp(1)) = 1$. Also, obseve that $p(x) = 1-p(-x)$ for the final part.
 
 \subsection{Multi-variable derivatives}
 
@@ -205,57 +180,81 @@ Note that in this course we will use $\log(x)$ to mean the ``natural'' logarithm
 \begin{enumerate}
 % \item $f_1(x) = \sin(x)$
 \item $f(x) = x_1^2 + \exp(x_2)$ where $x \in \R^2$.
+\ans{$\left[\begin{array}{cc} 2x_1 & \exp(x_2) \end{array}\right]$}
 \item $f(x) = \exp(x_1 + x_2x_3)$ where $x \in \mathbb{R}^3$.
+\ans{$\left[\begin{array}{ccc} 1 & x_2 & x_3 \end{array}\right].f$}
 \item $f(x) = a^Tx$ where $x \in \R^2$ and $a \in \R^2$.
+\ans{$a^T$}
 \item $f(x) = x^\top A x$ where $A=\left[ \begin{array}{cc}
 2 & -1 \\
  -1 & 1 \end{array} \right]$ and $x \in \mathbb{R}^2$.
- \item $f(x) = \frac{1}{2}\norm{x}^2$ where $x \in \R^d$.
+\ans{$\left[\begin{array}{cc} 4x_1 - 2x_2 & 2x_2 - 2x_1 \end{array}\right]$}
+\item $f(x) = \frac{1}{2}\norm{x}^2$ where $x \in \R^d$.
+\ans{x}
 \end{enumerate}
-
-Hint: it is helpful to write out the linear algebra expressions in terms of summations.
-
-
 
 \subsection{Derivatives of code}
 
-For these questions you may find it helpful to review this list of useful Julia commands:\\
-\url{http://www.cs.ubc.ca/~schmidtm/Courses/Notes/juliaCommands.txt}
+\begin{lstlisting}[language=julia, frame=single]
+function grad1(x)
+	n = length(x);
+	g = zeros(n);
+	for i in 1:n
+		g[i] = 3 * (x[i]^2);
+	end
+	return g;
+end
 
-The zip file \texttt{a1.zip} contains a Julia file named \texttt{grads.jl} which defines several functions that take in a vector as input. \blu{Complete the functions \texttt{grad1}, \texttt{grad2}, and \texttt{grad3} (which compute the gradients of \texttt{func1}, \texttt{func2}, and \texttt{func3})}. Include the code in the PDF file for this section, and also in your zip file.
+function grad2(x)
+	n = length(x);
+	g = zeros(n);
+	for i in 1:n
+		g[i] = prod(x) / x[i];
+	end
+	return g;
+end
 
-Hint: for many people it's easiest to first understand on paper what the code is doing, then compute
-the gradient, and then translate this gradient back into code. We've given you \texttt{func0} and \texttt{grad0} as an example. Also, we've provided the function \texttt{numGrad} which approximates the gradient numerically to help you debug. Below is an example of using these functions:
-
-Note: do not worry about the distinction between row vectors and column vectors here.
-For example, if the correct answer is a vector of length 5, we'll accept vectors of size $5 \times 1$ or $1 \times 5$. In future assignments we will be more careful to always use column vectors.
+function grad3(x)
+	n = length(x);
+	g = zeros(n)
+	for i in 1:n
+		g[i] = exp(-x[i]) / (1 + exp(-x[i]));
+	end
+	return g;
+end
+\end{lstlisting}
 
 \section{Algorithms and Data Structures Review}
-
-For these questions you may find it helpful to review these notes on big-O notation:\\
-\url{http://www.cs.ubc.ca/~schmidtm/Courses/Notes/bigO.pdf}
 
 \subsection{Trees}
 
 \blu{Answer the following questions} You do not need to show your work.
 \begin{enumerate}
 \item What is the maximum number of \emph{leaves} you could have in a binary tree of depth $l$?
+\ans{$2^l$}
 \item What is the maximum number of \emph{internal nodes} (excluding leaves) you could have in a binary tree of depth $l$?
+\ans{$2^l-1$}
 \end{enumerate}
 Note: we'll use the standard convention that the leaves are not included in the depth, so a tree with depth $1$ has 3 nodes with 2 leaves.
-
 
 \subsection{Common Runtimes}
 
 \blu{Answer the following questions using big-$O$ notation} You do not need to show your work.
 \begin{enumerate}
 \item What is the cost of running the mergesort algorithm to sort  a list of $n$ numbers?
+\ans{$O(n.log(n)$)}
 \item What is the cost of finding the third-largest element of an unsorted list of $n$ numbers?
+\ans{$O(n)$}
 \item What is the cost of finding the smallest element greater than 0 in a \emph{sorted} list with $n$ numbers?
+\ans{$O(\log{n})$}
 \item What is the cost of finding the value associated with a key in a hash table with $n$ numbers? \\(Assume the values and keys are both scalars.)
+\ans{$O(1)$}
 \item What is the cost of computing the matrix-vector product $Ax$ when $A$ is $n \times d$ and $x$ is $d \times 1$?
+\ans{$O(nd)$}
 \item What is the cost of computing the quadratic form $x^TAx$ when $A$ is $d \times d$ and $x$ is $d \times 1$?
+\ans{$O(d^2)$}
 \item How does the answer to the previous question change if $A$ has only $z$ non-zeroes? (You can assume $z \geq d$)
+\ans{$O(z)$}
 \end{enumerate}
 
 \subsection{Running times of code}
@@ -263,37 +262,35 @@ Note: we'll use the standard convention that the leaves are not included in the 
 Included in \texttt{a1.zip} is file named \texttt{bigO.jl}, which defines several functions
 that take an integer argument $n$. For each function, \blu{state the running time as a function of $n$, using big-O notation}.
 
+\ans{
+	\begin{enumerate}
+		\item T(func1) = $O(n)$
+		\item T(func2) = $O(1)$
+		\item T(func3) = $O(n)$
+		\item T(func4) = $O(n^2)$
+	\end{enumerate}
+}
 
 \section{Summary Statistics and Data Visualization}
 
-The file \emph{a1.zip} contains estimates of the influenza-like illness percentage over 52 weeks on 2005-06 by Google Flu Trends in a comma-separated values (CSV) file. You can open this with Excel or other spreadsheet programs; the first row gives the abbreviation of the region names for each column, and each row gives the estimate for a week.
-After you change to the a0 directory, you can load this data in Julia using:
-\begin{verbatim}
-using DelimitedFiles
-dataTable = readdlm("fluTrends.csv",',')
-\end{verbatim}
-This creates an two-dimensional array of type ``Any''  populated with all the information in the CSV file.
-
 \subsection{Summary Statistics}
 
-\blu{Report the following statistics}: the minimum, maximum, mean, median, and mode of all values across the dataset. In light of thea above, \blu{is the mode a reliable estimate of the most ``common" value? Describe another way we could give a meaningful ``mode" measurement for this (continuous) data.}
+\blu{Report the following statistics}: the minimum, maximum, mean, median, and mode of all values across the dataset.
+\ans{
+	\begin{enumerate}
+		\item minimum: 0.352
+		\item maximum: 4.862
+		\item mean: 1.325
+		\item median: 1.159
+		\item mode: 0.77
+	\end{enumerate}
+}
 
-Hint: Since the first row of the CSV file is just the names of the columns, we can create a matrix $X$ containing the data stored as real numbers using:
-\begin{verbatim}
-X = real(dataTable[2:end,:])
-\end{verbatim}
-You can make Julia dispaly the matrix $X$ using
-\begin{verbatim}
-@show X
-\end{verbatim}
-The \emph{show} macro can be used to display the result of any expression, like showing the tenth row of $X$:
-\begin{verbatim}
-@show X[10,:]
-\end{verbatim}
-Note that this can be run inside functions, so it's helpful for debugging.
+In light of thea above, \blu{is the mode a reliable estimate of the most ``common" value? Describe another way we could give a meaningful ``mode" measurement for this (continuous) data.}
 
-Julia has a mean and median function available, if you include the Statistics package. This package does not have a mode command, so I've included one in `misc.jl'.
-
+\ans{
+	\emph{\underline{No}}. Since our data freqeuencies are very small compared to the different possible values, the mode does not meaningfully represent commonality. To have a more meaningful mode we could re-code our data into bins large enough that the result does have frequency values comparable to the number of bins. And therefore the mode would be representing a significant portion of the data and be an appropriate statistical measure of commonality.
+}
 
 \subsection{Data Visualization}
 
@@ -309,63 +306,150 @@ The figure contains the following plots, in a shuffled order:
 }
 \blu{Match the plots (labeled A-F) with the descriptions above (labeled 1-6), with an extremely brief (a few words is fine) explanation for each decision.}
 
-Hint: you can generate similar plots by adding the PyPlot package. To add this package use:
-\begin{verbatim}
-using Pkg # Loads the package manager
-Pkg.add("PyPlot") # Only needs to be done once  (installs a Julia-callable Python build)
-using PyPlot # Do this once per session
-plot(1:52,X[:,1]) # Plot the first row
-\end{verbatim}
-To generate similar-looking plots you can use the functions `plot', `boxplot', `plt.hist', and `scatter'.
-
+\ans{
+	\begin{enumerate}
+		\item A -> 6 --- Axes match the description and each coloured line corresponds to a region
+		\item B -> 2 --- The only boxplot graph! (which also matches the description)
+		\item C -> 1 --- Simplest histogram that matches the description
+		\item D -> 4 --- Each colour is a histogram of the corresponding column
+		\item E -> 5 --- Less correlation -> data spread more as opposed to being linear
+		\item F -> 3 --- High correlation -> closer to a straight line
+	\end{enumerate}
+}
 
 \subsection{Decision Surfaces}
 
-Consider the figure below, which plots a set of two-dimensional training examples and the decision surface produced by a ``neural network'' classifier (a model we'll see later in the course).
-\blu{How many training examples has the neural network mis-classified?} (This figure is best viewed in colour.)
+\blu{How many training examples has the neural network mis-classified?}
+\ans{
+	17
+}
 
 
 \section{Decision Trees}
-
-If you run the file \emph{example\_decisionStump.jl}, it will load a dataset containing longtitude and latitude data for 400 cities in the US, along with a class label indicating whether they were a ``red" state or a ``blue" state in the 2012 election.\footnote{The cities data was sampled from \url{http://simplemaps.com/static/demos/resources/us-cities/cities.csv}. The election information was collected from Wikipedia.} Specifically, the first column of the variable $X$ contains the longitude and the second variable contains the latitude, while the variable $y$ is set to $1$ for blue states and $2$ for red states. After it loads the data, it plots the data and then fits two simple classifiers: a classifier that always predicts the most common label ($1$ in this case) and a decision stump that discretizes the features (by rounding to the nearest integer) and then finds the best equality-based rule (i.e., check if a feature is \emph{equal} to some value). It reports the training error with these two classifiers, then plots the decision areas made by the decision stump. The plot should look like this:
-
-Note that these functions use the ``JLD'' package for loading the data and the ``PyPlot'' and ``PyCall'' package to do the plotting. You can install these packages using:
-\begin{verbatim}
-using Pkg
-Pkg.add("JLD")
-Pkg.add("PyPlot")
-Pkg.add("PyCall")
-\end{verbatim}
 
 \subsection{Equality vs. Inequality Splitting Rules}
 
 In class we discussed splitting rules based on inequalities rather than equalities. \blu{Is there a type of feature where it makes sense to use 
 an equality-based splitting rule?}
 
-
-
+\ans{
+	Yes. For categorical or binary features it makes sense to use equality rather than inequlity. Or where a number has significance. For example one can split on age=19 when answering the question "does a person drink on their birthday". However equality based rule does not make sense for this problem as the pattern is more area based (a continues region of lat/long) as opposed to being based on specific longitudes or latitudes.
+}
 
 \subsection{Decision Stump Implementation}
 
-The file \emph{decisionstump.jl} contains a function  that finds the best decision stump using the equality rule (``decisionStumpEquality''), and then returns a function that can apply this decision stump to new data. Instead of discretizing the data and using a rule based on testing an equality for a single feature, we want to check whether a feature is above a threshold and split the data accordingly (this is the more sane approach, which we discussed in class). \blu{Add a new function ``decisionStump'' to \emph{decision\_stump.jl} that finds the best inequality-based rule, and report the updated error you obtain by using inequalities instead of discretizing and testing equality.}
+\blu{Add a new function ``decisionStump'' to \emph{decisionStump.jl} that finds the best inequality-based rule, and report the updated error you obtain by using inequalities instead of discretizing and testing equality.}
 
-Hint: you may want to start by copy/pasting the contents of of the ``decisionStumpEquality'' function and then make modifications from there. Note that you should remove the calls to the ``round'' function for the inequality case.  Make sure that you maintain the same input/output format in your function, since otherwise subsequent questions will not work (it should produce a plot that divides the US into a northern blue and a southern red area).
-If you are new to Julia, you may also want to look at\emph{majorityPredictor.jl} to get an idea of the syntax in  a simpler case.
+\begin{lstlisting}[language=julia]
+	function decisionStump(X,y)
+		# Fits a decision stump based on inequality
+
+		# Get the size of the data matrix
+		(n,d) = size(X)
+
+		# Initialize the "best rule" with the baseline rule (no split)
+		y_mode = mode(y)
+		minError = sum(y .!= y_mode);
+		splitVariable = [];
+		splitValue = [];
+		splitLE = y_mode; # predicted label for less than or equal to the split value
+		splitGT = [];     # predicted label for greater than the split value
+
+		# Search for the best rule
+		# (Uses O(n^2d) approach to keep code simple)
+		yhat = zeros(n)
+		for j in 1:d
+			# Try unique values of column as split values
+			for val in unique(X[:,j])
+
+				# Test whether each object satisfies inequality
+				lessThanOrEqual = X[:,j] .<= val
+
+				# Find correct label on both sides of split
+				y_le = mode(y[lessThanOrEqual])
+				y_gt = mode(y[.!lessThanOrEqual])
+
+				# Make predictions
+				yhat[lessThanOrEqual] .= y_le
+				yhat[.!lessThanOrEqual] .= y_gt
+
+				# Compute error
+				trainError = sum(yhat .!= y)
+
+				# Update best rule
+				if trainError < minError
+					minError = trainError
+					splitVariable = j
+					splitValue = val
+					splitLE = y_le
+					splitGT = y_gt
+				end
+			end
+		end
+
+		# Now that we have the best rule,
+		# let's build our splitting function
+		function split(Xhat)
+			(t,d) = size(Xhat)
+			if isempty(splitVariable)
+				return fill(true,t)
+			else
+				return (Xhat[:,splitVariable] .<= splitValue)
+			end
+		end
+
+		# Now that we have the best rule,
+		# let's build our predict function
+		function predict(Xhat)
+			(t,d) = size(Xhat)
+			lessThanOrEqual = split(Xhat)
+			yhat = fill(splitLE,t)
+			if any(.!lessThanOrEqual)
+				yhat[.!lessThanOrEqual] .= splitGT
+			end
+			return yhat
+		end
+
+		return StumpModel(predict,split,isempty(splitGT))
+	end
+\end{lstlisting}
+
+\includegraphics{inequality.png}
 
 \subsection{Constructing Decision Trees}
 
 Once your \emph{decisionStump} function is finished, the script \emph{example\_decisionTree} will be able to fit a decision tree of depth 2 to the same dataset (which results in a lower training error). Look at how the decision tree is stored and how the (recursive) \emph{predict} function works. \blu{Using the same splits as the fitted depth-2 decision tree, write out what an alternate version of the predict function would be for classifying one training example as a simple program using if/else statements (as in the first slide of L3 that has the title ``Decision Trees'').}
 
-Hint: you can use use the ``@show'' macro to print the values of various expressions during the execution of a .jl file.
+\begin{lstlisting}[language=julia]
+	function predict(Xhat)
+		(t,d) = size(Xhat)
+		yhat = zeros(t)
+		for i in 1:t
+			if Xhat[i,2] <= 37.669007
+				if Xhat[i,1] <= -115.577574
+					yhat[i] = 1
+				else
+					yhat[i] = 2
+				end
+			else
+				if Xhat[i,1] <= -96.090109
+					yhat[i] = 2
+				else
+					yhat[i] = 1
+				end
+			end
+		end
+		return yhat
+	end
+\end{lstlisting}
 
 \subsection{Cost of Fitting Decision Trees}
 
 In class, we discussed how in general the decision stump minimizing the classification error can be found in $O(nd\log n)$ time. Using the greedy recursive splitting procedure, \blu{what is the total cost of fitting a decision tree of depth $m$ in terms of $n$, $d$, and $m$?} 
 
-Hint: even thought there could be $(2^m-1)$ decision stumps, keep in mind not every stump will need to go through every example. Note also that we stop growing the decision tree if a node has no examples, so we may not even need to do anything for many of the $(2^m-1)$ decision stumps.
-
-\vspace{25pt}
-\textbf{HAVE YOU DOUBLE CHECKED THAT YOU'RE FOLLOWING ALL THE ASSIGNMENT SUBMISSION INSTRUCTIONS???}\\
-\url{www.cs.ubc.ca/~schmidtm/Courses/340-F19/assignments.pdf}
+\ans{
+	First stump (root) takes $O(nd\log{n})$. For big-O we assume worst case scenario, i.e. the stump does nothing (all examples are passed to the next level). In which case all \emph{m} layers have the same cost of $O(nd\log{n})$ resulting in a total cost of:\\
+	$O(mnd\log{n})$
+}
 
 \end{document}

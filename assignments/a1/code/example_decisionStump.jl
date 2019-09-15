@@ -38,3 +38,11 @@ trainError = sum(yhat .!= y)/n
 include("plot2Dclassifier.jl")
 plot2Dclassifier(X,y,model)
 
+#
+model = decisionStump(X,y);
+#
+# # Evaluate training error
+yhat = model.predict(X)
+trainError = sum(yhat .!= y)/n
+@printf("Error with inequality-rule decision stump: %.2f\n",trainError);
+plot2Dclassifier(X,y,model)
