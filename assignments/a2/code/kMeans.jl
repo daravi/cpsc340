@@ -76,18 +76,3 @@ end
 
 return PartitionModel(predict,y,W)
 end
-
-function kMeansError(X,y,W)
-	(n,d) = size(X)
-
-	f = 0
-	for i in 1:n
-		for j = 1:d
-			f += (X[i,j] - W[y[i],j])^2
-		end
-	end
-	return f
-end
-
-kMeansError2(X,y,W) = sum((X - W[y,:]).^2)
-

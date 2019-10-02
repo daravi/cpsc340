@@ -12,6 +12,8 @@
 \usepackage{listings} % For displaying code
 \usepackage{algorithm2e} % pseudo-code
 
+\graphicspath{ {./images/} }
+
 % Answers
 \def\ans#1{\par\gre{Answer: #1}}
 
@@ -46,11 +48,22 @@
 \author{}
 \date{}
 \maketitle
-\vspace{-4em}
 
-The assignment instructions are the same as Assignment 1, except you have the option to work in a group of 2. If you work in a group, please only hand in \emph{one} assignment. It is recommended that you work in groups as the assignment is quite long, but please only submit one assignment for the group and make sure that everyone's name/ID is on the front page.
+\vspace{-6em}
 
+\section*{Basic Information}
 
+\blu{\enum{
+\item Name: Pooya Daravi
+\item Student ID: 34584145
+}
+}
+
+\section*{Questions}
+
+\items{
+    \item For Q1.1, do we need to look at the data and the splits at different levels or can we make an educated guess?
+}
 
 \section{Training and Testing}
 
@@ -59,7 +72,34 @@ The assignment instructions are the same as Assignment 1, except you have the op
 Running \texttt{example\_train.jl} fits decision trees of different depths using two different implementations:
 the ``decisionStump'' function from Assignment 1, and using a variant using a more sophisticated splitting criterion called the information gain. \blu{Describe what you observe. Can you explain the results?}
 
+\ans{
+    As seen in the below output, the accuracy-based tree's error plateaus at 0.11. This could be due to the tree getting to a stump where no single split improves accuracy, but going further does improve information gain, eventually leading to a zero percent training error.
+}
 
+\begin{lstlisting}
+    > julia example_train.jl
+    Training error with depth-1 accuracy-based decision tree: 0.25
+    Training error with depth-2 accuracy-based decision tree: 0.17
+    Training error with depth-3 accuracy-based decision tree: 0.13
+    Training error with depth-4 accuracy-based decision tree: 0.11
+    Training error with depth-5 accuracy-based decision tree: 0.11
+    Training error with depth-6 accuracy-based decision tree: 0.11
+    Training error with depth-7 accuracy-based decision tree: 0.11
+    Training error with depth-8 accuracy-based decision tree: 0.11
+    Training error with depth-9 accuracy-based decision tree: 0.11
+    Training error with depth-10 accuracy-based decision tree: 0.11
+    Now let's try infogain instead of accuracy...
+    Training error with depth-1 infogain-based decision tree: 0.33
+    Training error with depth-2 infogain-based decision tree: 0.24
+    Training error with depth-3 infogain-based decision tree: 0.15
+    Training error with depth-4 infogain-based decision tree: 0.13
+    Training error with depth-5 infogain-based decision tree: 0.08
+    Training error with depth-6 infogain-based decision tree: 0.05
+    Training error with depth-7 infogain-based decision tree: 0.02
+    Training error with depth-8 infogain-based decision tree: 0.01
+    Training error with depth-9 infogain-based decision tree: 0.00
+    Training error with depth-10 infogain-based decision tree: 0.00
+\end{lstlisting}
 
 \subsection{Training and Testing Error Curves}
 
@@ -72,6 +112,7 @@ With a depth-2 decision tree, the training and test error are fairly close, so t
 
 Note: use the provided infogain-based decision tree code from the previous subsection.
 
+\includegraphics{overfitting.png}
 
 
 \subsection{Validation Set}
@@ -80,7 +121,9 @@ Suppose we're in the typical case where we don't have the labels for the test da
 
 Note: use the provided infogain-based decision tree code from the previous subsection.
 
-
+\ans{
+    Depth 3 has the lowest validation error of 0.145. Yes it would be depth 6 (with validation error of 0.12). If we use more folds in our cross validation we can have a more reliable depth estimate. (by choosing the depth that minimizes the average error)
+}
 
 \section{Naive Bayes}
 
@@ -132,6 +175,16 @@ Suppose you believe that a naive Bayes model would be appropriate for this datas
 
 \blu{Under the naive Bayes model and your estimates of the above probabilities, what is the most likely label for the test example? (Show your work.)}
 
+\ans{
+    \newline
+    % $p(\text{$<$your name$>$} = 1, \text{pharmaceutical} = 1, \text{PayPal} = 0 \cond \text{spam}) $\approx$ $p(\text{$<$your name$>$} = 1  \cond \text{spam}) * 
+    $p(\text{$<$your name$>$} = 1, \text{pharmaceutical} = 1, \text{PayPal} = 0  \cond \text{spam}) \approx p(\text{$<$your name$>$} = 1  \cond \text{spam}) . p(\text{pharmaceutical} = 1 \cond \text{spam}) . p(\text{PayPal} = 0  \cond \text{spam}) = \frac{5}{108}$
+    \newline
+    $p(\text{$<$your name$>$} = 1, \text{pharmaceutical} = 1, \text{PayPal} = 0  \cond \text{not spam}) \approx p(\text{$<$your name$>$} = 1  \cond \text{not spam}) . p(\text{pharmaceutical} = 1 \cond \text{not spam}) . p(\text{PayPal} = 0  \cond \text{not spam}) = \frac{3}{16}$
+    \newline
+    \newline
+    Therefore it is more likely that the email is not an spam.
+}
 
 \subsection{Bag of Words}
 
@@ -146,8 +199,17 @@ If you run the script \emph{example\_bagOfWods.jl}, it will load the following d
 \blu{Answer the following}:
 \enum{
 \item Which word is present in the newsgroup post if there is a $1$ in column 30 of X?
+    \ans{
+        wordlist[30] = format
+    }
 \item Which words are present in training example 200?
+    \ans{
+        food and world (X[200,:])
+    }
 \item Which newsgroup name does training example 200 come from?
+    \ans{
+        talk.* (groupnames[y[200]])
+    }
 }
 
 \subsection{Naive Bayes Implementation}
