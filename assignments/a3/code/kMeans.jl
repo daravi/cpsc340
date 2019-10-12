@@ -15,7 +15,7 @@ function kMeans(X,k;doPlot=false)
 
 (n,d) = size(X)
 
-# Choos random points to initialize means
+# Choose random points to initialize means
 W = zeros(k,d)
 perm = randperm(n)
 for c = 1:k
@@ -59,13 +59,14 @@ while changes != 0
 		sleep(.1)
 	end
 
-	@printf("Running k-means, changes = %d\n",changes)
+	# @printf("Running k-means, changes = %d\n",changes)
 end
 
 function predict(Xhat)
 	(t,d) = size(Xhat)
 
 	D = distancesSquared(Xhat,W)
+	D[findall(isnan.(D))] .= Inf
 
 	yhat = zeros(Int64,t)
 	for i in 1:t

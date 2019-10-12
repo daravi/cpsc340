@@ -48,6 +48,9 @@
 \maketitle
 \vspace{-4em}
 
+% Q1.1.1 When does distance becoe NaN?
+% y != model.y??
+
 On this assignment, we are only going to allow a \blu{maximum of 1 ``late class''} to be used. This is because the midterm is on October 17th, and we want to give you more than 1 day to look at the solutions before the actual exam.
 
 \section{More Unsupervised Learning}
@@ -58,7 +61,13 @@ On this assignment, we are only going to allow a \blu{maximum of 1 ``late class'
  
  \blu{\enum{
  \item Using the \emph{clustering2Dplot} function, output the clustering obtained by running k-means 50 times (with $k=4$) on \emph{clusterData2.mat} and taking the one with the lowest error. Are you satisfied with the result?
+ \ans{
+     No. It appears that the outliers are cause one of the clusters to be used to reduce error and result in 3 clusters for the bulk of the data. This seems to go against the nature of the data which seems to have 4 clusters.
+ }
  \item What values of $k$ might be chosen by the elbow method for this dataset?
+ \ans{
+     Using density based clusterig (DBSCAN) to avoid the effect of outliers, 
+ }
  \item Implement the $k$-\emph{medians} algorithm, which assigns examples to the nearest $w_c$ in the L1-norm and then updates the $w_c$ by setting them to the ``median" of the points assigned to the cluster (we define the $d$-dimensional median as the concatenation of the medians along each dimension). For this algorithm it makes sense to use the L1-norm version of the error (where $y_i$ now represents the closest median in the L1-norm),
 \[
 f(w_1,w_2,\dots,w_k,y_1,y_2,\dots,y_n) = \sum_{i=1}^n \norm{x_i - w_{y_i}}_1 = \sum_{i=1}^n \sum_{j=1}^d |x_{ij} - w_{y_ij}|,
